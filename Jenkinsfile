@@ -5,7 +5,7 @@ node ('master') {
 	stage('Build') {
 		sh "mvn clean install -Dmaven.test.skipe=true"
 	}
-	stage('Test Case Execution') {
+	stage('Test Cases	 Execution') {
 		sh "mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install -Pcoverage-per-test"
 	}
 	stage('Sonar Analysis') {
@@ -16,14 +16,14 @@ node ('master') {
 	}
 	
 	stage('Deployment') {
-		deploy adapters: [tomcat9(credentialsID: 'TomcatCreds', path:'', url: 'http://54.151.231.207:8080//')], contextPath: 'sam', war: 'target/*.war'
+		deploy adapters: [tomcat9(credentialsID: 'TomcatCreds', path:'', url: 'http://54.151.231.207:8080/')], contextPath: 'sam', war: 'target/*.war'
 	}
 	stage('Notification') {
 		emailext (
-					subject: "Job Completed"
-					body : "Jenkins Pipeline Job for Maven Build got completed !!!"
-					to : "build-alerts@example.com"
-				 )
+			subject: "Job Completed"
+			body : "Jenkins Pipeline Job for Maven Build got completed !!!",
+			to : "build-alerts@example.com"
+		      )
 		}
 	
 }
